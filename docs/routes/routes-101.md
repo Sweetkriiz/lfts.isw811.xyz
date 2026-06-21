@@ -108,6 +108,6 @@ Se logró comprender la relación entre rutas y vistas dentro de Laravel. La apl
 
 ### Evidencia
 
-![Página principal](images/episodio03-home.png)
+![Página principal](../images/episodio03-home.png)
 
-![Página About](images/episodio03-about.png)
+![Página About](../images/episodio03-about.png)
