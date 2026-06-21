@@ -2,7 +2,7 @@
 
 ## Episodio 04: Layouts y Componentes Blade
 
-### Resumen
+### Desarrollo del episodio
 
 En este episodio aprendimos a reutilizar código en Laravel mediante el uso de componentes Blade y archivos de diseño (layouts). Inicialmente se creó una página de contacto y se agregó al menú de navegación del sitio. Posteriormente se identificó que existía mucho código repetido entre las vistas, especialmente en las etiquetas HTML, el encabezado y la navegación.
 

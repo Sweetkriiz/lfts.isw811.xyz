@@ -2,8 +2,8 @@
 
 ## Indice
 
-- [Routing 101](./routes/routes-101.md)
-- [Layout Files](./layouts/layout-files.md)
-- [Pass Data to Views](./Data/data-to-views.md)
-
+- [Routing 101](./Ep3/routes-101.md)
+- [Layout Files](./Ep4/layout-files.md)
+- [Pass Data to Views](./Ep5/data-to-views.md)
+- [Blade Directives](./Ep6/blade-directives.md)
 

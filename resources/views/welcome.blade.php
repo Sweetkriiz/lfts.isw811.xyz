@@ -1,8 +1,5 @@
 <x-layout>
-
-<p>
-    {{ $greeting }}, {!! $person !!}!
-
-</p>
-    
+    @if (count($tasks))
+        <p>Yes, we have some tasks. How many? <?= count($tasks) ?> tasks, in fact! </p>
+    @endif
 </x-layout>

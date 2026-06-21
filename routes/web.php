@@ -4,7 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome', [
-        'greeting' => 'hello',
-        'person' => request('person', 'world')
+        'tasks' => [
+            'Go to the market',
+            'Walk the dog',
+            'Watch a video tutorial',
+
+        ],
     ]);
 });
