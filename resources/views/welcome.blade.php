@@ -1,5 +1,8 @@
-<x-layout title="Home">
+<x-layout>
 
-<h1> Hello, World!</h1>
+<p>
+    {{ $greeting }}, {!! $person !!}!
+
+</p>
     
 </x-layout>
