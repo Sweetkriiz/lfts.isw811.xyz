@@ -1,7 +1,6 @@
 <x-layout>
 
-    <div class="mt-6 text-white">
-        <h2 class="font-bold">Your ideas </h2>
+    <div class="card bg-neutral text-black p-6 mt-6">
         <div class="mt-6">
             {{ $idea->description }}
 
@@ -14,6 +13,8 @@
                 Edit
             </a>
         </div>
+
+       
     </div>
 
 </x-layout>

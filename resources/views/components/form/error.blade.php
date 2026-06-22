@@ -1,4 +1,4 @@
-@props(['name'])
+@props(['name' => 'required'])
 
 @error($name)
     <p class="mt-2 text-sm text-red-500">

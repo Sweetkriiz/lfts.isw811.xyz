@@ -2,24 +2,20 @@
 
     @if ($ideas->count())
 
-    <div class="mt-6 text-white">
+    <div class="mt-6 text-black">
         <h2 class="font-bold">Your ideas </h2>
 
-        <ul class="mt-6">
+        <ul class="mt-6 grid grid-cols-2 gap-x-6 gap-y-4">
             @foreach($ideas as $idea)
 
-            <a href="/ideas/{{ $idea->id }}" class="text-sm">
-                {{ $idea->description }}
-            </a>
-
+            <x-idea-card>>
+               {{ $idea->description }}
+            </x-idea-card>
 
             @endforeach
         </ul>
     </div>
     @else
-    <p>
-        You have no ideas.
-        <a href="/ideas/create" class="underline">Create one now</a>
-    </p>
+    <p>You have no ideas. <a href="/ideas/create" class="underline">Create one now</a></p>
     @endif
 </x-layout>

@@ -10,3 +10,4 @@
 - [HTTP Requests and REST](./Ep9/HTTP-REST.md)
 - [Controller](./Ep10/Controller.md)
 - [Request Validation](./Ep11/Request-validation.md)
+- [A Brief DaisyUI Detour](./Ep13/Brief-DaisyUI-Detour.md)
