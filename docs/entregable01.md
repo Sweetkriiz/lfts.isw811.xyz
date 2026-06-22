@@ -8,4 +8,5 @@
 - [Blade Directives](./Ep6/blade-directives.md)
 - [Databases, Migrations, and Eloquent](./Ep8/database-migration.md)
 - [HTTP Requests and REST](./Ep9/HTTP-REST.md)
+- [Controller](./Ep10/Controller.md)
 - [Request Validation](./Ep11/Request-validation.md)
