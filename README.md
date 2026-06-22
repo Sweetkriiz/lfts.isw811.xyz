@@ -1,59 +1,254 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Instalación y ejecución del proyecto
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descripción general
 
-## About Laravel
+Este proyecto fue desarrollado utilizando **Laravel**, **MariaDB** y **Node.js** dentro de un entorno virtualizado con **Vagrant**. Para ejecutar correctamente la aplicación es necesario iniciar la máquina virtual, configurar la base de datos, instalar las dependencias del proyecto y finalmente levantar el servidor web.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requisitos previos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Antes de comenzar, asegúrese de tener instalado lo siguiente en su equipo:
 
-## Learning Laravel
+- Git
+- VirtualBox
+- Vagrant
+- Un navegador web moderno
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+> **Nota:** PHP, Composer, Node.js y MariaDB ya se encuentran configurados dentro de la máquina virtual utilizada para el desarrollo del proyecto.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Iniciar la máquina virtual
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Ubíquese en la carpeta donde se encuentra el archivo `Vagrantfile` del entorno de desarrollo y ejecute:
 
-### Premium Partners
+```bash
+vagrant up
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Este comando iniciará la máquina virtual Debian utilizada para ejecutar el proyecto.
 
-## Contributing
+Para verificar que la máquina virtual se encuentra funcionando correctamente:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+vagrant status
+```
 
-## Code of Conduct
+El estado debe aparecer como `running`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Posteriormente, acceda a la máquina virtual mediante SSH:
 
-## Security Vulnerabilities
+```bash
+vagrant ssh
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Acceder al directorio del proyecto
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Una vez dentro de la máquina virtual, diríjase al directorio donde se encuentra almacenado el proyecto Laravel:
+
+```bash
+cd /vagrant/sites/lfts.isw811.xyz
+```
+
+Todos los comandos indicados en las siguientes secciones deben ejecutarse desde esta ubicación.
+
+---
+
+## Instalar dependencias del proyecto
+
+Laravel utiliza Composer para administrar las dependencias de PHP y npm para gestionar las dependencias del frontend.
+
+```bash
+composer install
+npm install
+```
+
+### ¿Qué realiza cada comando?
+
+- `composer install`: descarga e instala todas las librerías PHP definidas en el archivo `composer.json`.
+- `npm install`: descarga e instala las dependencias JavaScript definidas en el archivo `package.json`.
+
+---
+
+## Configurar el entorno de la aplicación
+
+Laravel requiere un archivo `.env` para almacenar la configuración específica del entorno.
+
+Si el archivo no existe, créelo a partir del archivo de ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+Posteriormente genere la clave de la aplicación:
+
+```bash
+php artisan key:generate
+```
+
+Este comando genera una clave única utilizada por Laravel para procesos de cifrado y seguridad.
+
+---
+
+## Configurar e iniciar la base de datos
+
+Verifique que el servicio MariaDB se encuentre activo:
+
+```bash
+sudo systemctl status mariadb
+```
+
+Si el servicio no está iniciado, ejecútelo manualmente:
+
+```bash
+sudo systemctl start mariadb
+```
+
+Acceda al gestor de bases de datos:
+
+```bash
+sudo mariadb
+```
+
+Cree la base de datos utilizada por el proyecto:
+
+```sql
+CREATE DATABASE lfts;
+```
+
+Salga de MariaDB:
+
+```sql
+EXIT;
+```
+
+---
+
+## Configurar la conexión a la base de datos
+
+Abra el archivo `.env` y verifique que la configuración de conexión sea similar a la siguiente:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lfts
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+## Crear la estructura de la base de datos
+
+Laravel utiliza migraciones para crear automáticamente las tablas necesarias para el funcionamiento de la aplicación.
+
+```bash
+php artisan migrate
+```
+
+Si el proyecto incluye datos iniciales o de prueba, ejecute también:
+
+```bash
+php artisan db:seed
+```
+
+### Función de estos comandos
+
+- `php artisan migrate`: crea las tablas definidas en las migraciones del proyecto.
+- `php artisan db:seed`: inserta registros iniciales necesarios para pruebas o configuración.
+
+---
+
+## Compilar los recursos del frontend
+
+Durante el desarrollo:
+
+```bash
+npm run dev
+```
+
+Para generar una versión optimizada para producción:
+
+```bash
+npm run build
+```
+
+---
+
+## Levantar la aplicación Laravel
+
+Una vez completados los pasos anteriores, inicie el servidor de desarrollo:
+
+```bash
+php artisan serve --host=0.0.0.0
+```
+
+Si el proceso se ejecuta correctamente, Laravel mostrará una salida similar a la siguiente:
+
+```text
+INFO  Server running on [http://0.0.0.0:8000]
+```
+
+La aplicación podrá accederse desde:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+## Comandos adicionales
+
+### Ejecutar pruebas automatizadas
+
+```bash
+php artisan test
+```
+
+### Crear enlace simbólico para almacenamiento público
+
+```bash
+php artisan storage:link
+```
+
+### Procesar trabajos en cola
+
+```bash
+php artisan queue:work
+```
+
+### Generar recursos para producción
+
+```bash
+npm run build
+```
+
+---
+
+## Resumen rápido de ejecución
+
+```bash
+vagrant up
+vagrant ssh
+
+cd /vagrant/sites/lfts.isw811.xyz
+
+composer install
+npm install
+
+cp .env.example .env
+php artisan key:generate
+
+php artisan migrate
+php artisan db:seed
+
+npm run dev
+
+php artisan serve --host=0.0.0.0
+```
+
+Una vez completados estos pasos, la aplicación estará lista para utilizarse.
