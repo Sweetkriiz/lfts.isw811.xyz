@@ -7,4 +7,4 @@
 - [Pass Data to Views](./Ep5/data-to-views.md)
 - [Blade Directives](./Ep6/blade-directives.md)
 - [Databases, Migrations, and Eloquent](./Ep8/database-migration.md)
-
+- [HTTP Requests and REST](./Ep9/HTTP-REST.md)
