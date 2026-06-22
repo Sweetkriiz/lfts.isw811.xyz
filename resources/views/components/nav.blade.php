@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-200 shadow-sm">
     <div class="navbar-start">
         <a href="/ideas" class="btn btn-ghost text-xl">IDEA</a>
     </div>
@@ -10,7 +10,21 @@
         </ul>
     </div>
 
-    <div class="navbar-end">
-        <a class="btn">Button</a>
+    <div class="navbar-end space-x-2">
+        @guest
+        <a class="btn btn-primary" href="/register">Register</a>
+        <a class="btn btn-ghost" href="/login">Log in</a>
+        @endguest
+
+        @auth
+        <form method="POST" action="/logout">
+            @csrf
+            @method('DELETE')
+
+            <button class="btn btn-ghost" type="submit">
+                Log out
+            </button>
+        </form>
+        @endauth
     </div>
 </div>
