@@ -6,4 +6,5 @@
 - [Layout Files](./Ep4/layout-files.md)
 - [Pass Data to Views](./Ep5/data-to-views.md)
 - [Blade Directives](./Ep6/blade-directives.md)
+- [Databases, Migrations, and Eloquent](./Ep8/database-migration.md)
 

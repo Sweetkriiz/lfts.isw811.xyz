@@ -1,18 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Idea;
 
 Route::get('/', function () {
-    $ideas = session()->get('ideas',[]);
 
-    return view('ideas',[
-    'ideas' => $ideas,
+    $ideas = Idea::query()
+        ->when(request('state'), function ($query, $state) {
+            dd($state);
+        });
+
+    return view('ideas', [
+        'ideas' => $ideas,
     ]);
 });
 
 Route::post('/ideas', function () {
-    $idea = request('idea'); // Captura la idea del formulario
-    session()->push('ideas', $idea); // Almacena la idea en la sesión
+
+    Idea::created([
+
+        'description' => request('idea'),
+        'state' => 'pending',
+    ]);
+
     return redirect('/'); // Redirige de vuelta a la página principal
 });
 
