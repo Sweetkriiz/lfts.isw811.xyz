@@ -31,18 +31,18 @@ class SessionsController extends Controller
      */
     public function store(Request $request)
     {
-       $validated = $request->validate([
-        'email' => ['required', 'string', 'email', 'max:255'],
-        'password' => ['required', 'string', Password::defaults()],
-       ]);
+        $validated = $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', Password::defaults()],
+        ]);
 
-       if (Auth::attempt($validated)) {
-        $request->session()->regenerate();
-        
-        return redirect('/ideas');
-       }
+        if (Auth::attempt($validated)) {
+            $request->session()->regenerate();
 
-       return back()->withErrors(['email' => 'Invalid credentials']);
+            return redirect('/ideas');
+        }
+
+        return back()->withErrors(['email' => 'Invalid credentials']);
     }
 
     /**
@@ -72,9 +72,13 @@ class SessionsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         Auth::logout();
-        return redirect('/ideas');
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }
