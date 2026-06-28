@@ -7,6 +7,11 @@
         <ul class="menu menu-horizontal px-1">
             <li><a href="/ideas">HOME</a></li>
             <li><a href="/ideas/create">NEW IDEA</a></li>
+            <li><a href="/admin">ADMIN</a></li>
+            @can('view-admin')
+                <li><a> href="/admin">Admin</a></li>
+            @endcan
+
         </ul>
     </div>
 

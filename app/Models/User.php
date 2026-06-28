@@ -52,9 +52,15 @@ class User extends Authenticatable
         ];
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->id === 1; //Only kris is admin
+    }
+        
+    
+
     public function ideas(): HasMany
     {
         return $this->hasMany(Idea::class);
     }
-
 }
