@@ -11,3 +11,6 @@
 - [Controller](./Ep10/Controller.md)
 - [Request Validation](./Ep11/Request-validation.md)
 - [A Brief DaisyUI Detour](./Ep13/Brief-DaisyUI-Detour.md)
+- [Authentication](./Ep14/Authentication.md)
+- [Require Authentication With Middleware](./Ep15/Require-Authentication-Middleware.md)
+- [Eloquent Relationships](./Ep16/Eloquent-Relationships.md)

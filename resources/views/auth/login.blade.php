@@ -1,4 +1,3 @@
-
 <x-layout>
     <form action="/login" method="POST">
         @csrf
@@ -9,14 +8,14 @@
             <label class="label" for="email">Email</label>
             <input type="email" class="input" name="email" placeholder="Your Email" required />
 
-            <x-form-error name="email" />    
+            <x-form.error name="email" />
 
             <label class="label">Password</label>
             <input type="password" class="input" name="password" placeholder="Password" required />
-            
-            <x-form-error name="password" />
 
-            <button class="btn btn-neutral mt-4">Register</button>
+            <x-form.error name="password" />
+
+            <button class="btn btn-neutral mt-4">Log in</button>
         </fieldset>
     </form>
 </x-layout>
