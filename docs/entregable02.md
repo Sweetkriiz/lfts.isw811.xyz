@@ -3,3 +3,4 @@
 ## Indice
 
 - [Authorization Using Gates](./Ep17/Authorization-Gates.md)
+- [Authorization Using Policies](./Ep18/Authorization-Policies.md)
