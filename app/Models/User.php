@@ -4,10 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read Collection<int, \App\Models\Idea> $ideas
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -15,7 +20,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     *
+     * 
      * @var list<string>
      */
     protected $fillable = [
@@ -46,4 +51,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function ideas(): HasMany
+    {
+        return $this->hasMany(Idea::class);
+    }
+
 }
