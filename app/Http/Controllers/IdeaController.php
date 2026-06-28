@@ -6,7 +6,8 @@ use App\Models\Idea;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\IdeaRequest;
-use App\Models\User;
+use App\Notifications\IdeaPublished;
+
 
 
 class IdeaController extends Controller
@@ -27,18 +28,20 @@ class IdeaController extends Controller
 
     public function store(IdeaRequest $request)
     {
-        $idea = new Idea;
-        $idea->description = $request->input('description');
-        $idea->state = 'pending';
-        $idea->user_id = Auth::id();
-        $idea->save();
+        $idea = Auth::user()->ideas()->create([
+            'description' => $request->input('description'),
+            'state' => 'pending',
+        ]);
+
+       Auth::user()
+       ->notify(new IdeaPublished($idea));
 
         return redirect('/ideas');
     }
 
     public function show(Idea $idea)
-    {   
-        Gate::authorize('update',$idea);
+    {
+        Gate::authorize('update', $idea);
 
         return view('ideas.show', [
             'idea' => $idea,
