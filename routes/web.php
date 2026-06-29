@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\Auth\SessionsController;
 
+Route::get('/', function (){
+    return 'home marketing page';
+});
+
 Route::get('/', function () {
     return 'Placeholder for the home page';
 });
