@@ -1,39 +1,17 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterUserController;
-use App\Http\Controllers\Auth\SessionsController;
-use App\Http\Controllers\IdeaController;
+declare(strict_types=1);
+
+use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\SessionsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => 'home marketing page');
+Route::get('/', fn () => view('welcome'));
 
-Route::get('/', fn () => 'Placeholder for the home page');
+Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest');
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
-Route::middleware('auth')->group(function () {
-    // index
-    Route::get('/ideas', [IdeaController::class, 'index']);
-    // create
-    Route::get('/ideas/create', [IdeaController::class, 'create']);
-    // store
-    Route::post('/ideas', [IdeaController::class, 'store']);
-    // show
-    Route::get('/ideas/{idea}', [IdeaController::class, 'show']);
-    // edit
-    Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit']);
-    // update
-    Route::patch('/ideas/{idea}', [IdeaController::class, 'update']);
-    // destroy
-    Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy']);
+Route::get('/login', [SessionsController::class, 'create'])->middleware('guest');
+Route::post('/login', [SessionsController::class, 'store'])->middleware('guest');
 
-    Route::delete('/logout', [SessionsController::class, 'destroy']);
-});
-
-Route::middleware('guest')->group(function () {
-
-    Route::get('/register', [RegisterUserController::class, 'create'])->middleware('guest');
-    Route::post('/register', [RegisterUserController::class, 'store'])->middleware('guest');
-
-    Route::get('/login', [SessionsController::class, 'create'])->name('login');
-    Route::post('/login', [SessionsController::class, 'store']);
-
-});
+Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
