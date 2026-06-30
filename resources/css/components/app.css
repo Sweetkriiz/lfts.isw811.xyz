@@ -1,7 +1,6 @@
-@import 'tailwindcss';
-
-@import './components/btn.css' layer(components);
-@import './components/form.css' layer(components);
+@import "../form.css";
+@import "./btn.css";
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
