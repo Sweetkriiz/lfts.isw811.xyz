@@ -1,0 +1,32 @@
+<x-layout>
+    <div>
+        <header class="py-8 md:py-12">
+            <h1 class="text-3x1 font-bold">Ideas</h1>
+            <p class="text-muted-foreground text-sm  mt-2">All of your ideas in one place.</p>
+        </header>
+
+        <div class="mt-10">
+            <div class="grid md:grid-cols-2 gap-6">
+                @forelse ($ideas as $idea)
+                <x-card href="{{ route('ideas.show', $idea) }}">
+                    <h3 class="text-lg font-semibold">{{ $idea->title }}</h3>
+                    <div class="mt-1">
+                        <x-idea.status-label>
+                            {{ $idea->status->label() }}
+                        </x-idea.status-label>
+                    </div>
+
+
+                    <div class="mt-5 line-clamp-3">{{ $idea->description }}</div>
+                    <div class="mt-4">{{ $idea->created_at->diffForHumans() }}</div>
+                
+                </x-card>
+            @empty
+                <x-card>
+                    <p class="text-muted-foreground">No ideas yet.</p>
+                </x-card>
+            @endforelse
+            </div>
+        </div>
+    </div>
+</x-layout>

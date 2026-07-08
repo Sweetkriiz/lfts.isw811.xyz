@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreIdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Idea;
 
 class IdeaController extends Controller
@@ -13,7 +14,11 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        //
+        $ideas = Idea::where('user_id', Auth::id())->get();
+
+        return view('ideas.index', [
+            'ideas' => $ideas
+        ]);
     }
 
     /**
