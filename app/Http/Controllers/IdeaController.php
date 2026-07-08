@@ -6,18 +6,34 @@ use App\Http\Requests\StoreIdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Idea;
+use Illuminate\Http\Request;
+use App\IdeaStatus;
+use Illuminate\Validation\Rule;
 
 class IdeaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $ideas = Idea::where('user_id', Auth::id())->get();
+    public function index(Request $request)
+    {   
+        $user = Auth::user();
 
-        return view('ideas.index', [
-            'ideas' => $ideas
+        $status =$request->status;
+
+        if (! in_array($status, array_column(IdeaStatus::cases(), 'value'))) {
+            $status = null;
+        }
+        
+        $ideas = $user
+        ->ideas()
+        ->where($request->status, fn($query, $status) => $query->where('status', $status))
+        ->get();
+
+
+        return view('idea.index', [
+            'ideas' => $ideas,
+            'statusCounts' => Idea::statusCounts($user),
         ]);
     }
 
