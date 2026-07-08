@@ -24,11 +24,18 @@ class IdeaController extends Controller
         if (! in_array($status, array_column(IdeaStatus::cases(), 'value'))) {
             $status = null;
         }
-        
-        $ideas = $user
-        ->ideas()
-        ->where($request->status, fn($query, $status) => $query->where('status', $status))
-        ->get();
+        // Use the Idea model directly to avoid undefined relation on the Auth user instance
+        $ideasQuery = Idea::query();
+
+        if ($user) {
+            $ideasQuery->where('user_id', $user->id);
+        }
+
+        if ($status) {
+            $ideasQuery->where('status', $status);
+        }
+
+        $ideas = $ideasQuery->get();
 
 
         return view('idea.index', [
@@ -58,7 +65,9 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
-        //
+        return view('idea.show', [
+            'idea' => $idea,
+        ]);
     }
 
     /**
@@ -82,6 +91,8 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea)
     {
-        //
+        $idea->delete();
+
+        return to_route('ideas.index');
     }
 }
