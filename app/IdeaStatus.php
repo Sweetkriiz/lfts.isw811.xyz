@@ -11,13 +11,13 @@ enum IdeaStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::PENDING => 'Pendig',
-            self::IN_PROGRESS => 'In_progress',
+            self::PENDING => 'Pending',
+            self::IN_PROGRESS => 'In Progress',
             self::COMPLETED => 'Completed',
         };
     }
 
-    Public static function Values()
+    public static function values(): array
     {
         return array_map(fn($status) => $status->value, self::cases());
     }

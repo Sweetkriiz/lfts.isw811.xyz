@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\IdeaStatus;
-use AssertionError;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 
 
@@ -24,7 +22,7 @@ class Idea extends Model
     ];
     
     protected $attributes = [
-        'status' => IdeaStatus::PENDING,
+        'status' => 'pending',
     ];
 
     public static function statusCounts(User $user): Collection
@@ -51,7 +49,6 @@ class Idea extends Model
 
     public function steps(): HasMany
     {
-        return $this->hasMany(step::class);
+        return $this->hasMany(Step::class);
     }
 }
-

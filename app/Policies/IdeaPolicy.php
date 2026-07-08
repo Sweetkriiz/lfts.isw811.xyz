@@ -13,7 +13,7 @@ class IdeaPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class IdeaPolicy
      */
     public function view(User $user, Idea $idea): bool
     {
-        return false;
+        return $idea->user_id === $user->id;
     }
 
     /**
@@ -29,7 +29,7 @@ class IdeaPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class IdeaPolicy
      */
     public function update(User $user, Idea $idea): bool
     {
-        return false;
+        return $idea->user_id === $user->id;
     }
 
     /**
@@ -45,7 +45,7 @@ class IdeaPolicy
      */
     public function delete(User $user, Idea $idea): bool
     {
-        return false;
+        return $idea->user_id === $user->id;
     }
 
     /**

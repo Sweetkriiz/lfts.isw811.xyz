@@ -3,19 +3,17 @@
 
         <div class="flex justify-between items-center">
 
-            <a href="{{ route('idea.index') }}" class="flex items-center gap-x-2 text-sm font-medium">
-                <x-icons.arrow-back />
+            <a href="{{ route('ideas.index') }}" class="flex items-center gap-x-2 text-sm font-medium">
+                <span aria-hidden="true">&larr;</span>
                 Back to Ideas
             </a>
 
             <div class="gap-x-3 flex items-center">
                 <button class="btn btn-outlined">
-                    <x-icons.external />
-
                     Edit Idea
                 </button>
 
-                <form method="post" action="{{ route('idea.destroy', $idea) }}">
+                <form method="post" action="{{ route('ideas.destroy', $idea) }}">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-outlined text-red-500">Delete</button>
@@ -24,7 +22,7 @@
             </div>
 
         </div>
-        <div class="mt-8 spacee-y-6">
+        <div class="mt-8 space-y-6">
             <h1 class="font-bold text-4xl">{{ $idea->title }}</h1>
 
             <div class="mt-2 flex gap-x-3 items-center">
@@ -50,6 +48,5 @@
                 </div>
             </div>
         @endif
-    </div>
     </div>
 </x-layout>

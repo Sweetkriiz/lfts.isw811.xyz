@@ -65,6 +65,8 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
+        $this->authorize('view', $idea);
+
         return view('idea.show', [
             'idea' => $idea,
         ]);
@@ -91,6 +93,8 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea)
     {
+        $this->authorize('delete', $idea);
+
         $idea->delete();
 
         return to_route('ideas.index');

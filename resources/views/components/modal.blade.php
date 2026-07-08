@@ -1,33 +1,28 @@
-@props(['name'])
+@props(['name', 'title' => null])
 
-</div
-    X-data="{ open: false }"
-    X-show="show"
-    @open-modal.window="($event.details === name)show = true"
+<div
+    x-data="{ show: false }"
+    x-show="show"
+    @open-modal.window="if ($event.detail === '{{ $name }}') show = true"
     @keydown.escape.window="show = false"
-    x-transition:enter="duration-1000"
-    x-transition:enter-start="opacity-0 -translate-y-4 -translate-x-4"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="duration-1000"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0 -translate-y-4 -translate-x-4"
-    class=" fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs"
+    x-transition.opacity.duration.300ms
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-xs"
     style="display: none;"
     role="dialog"
     aria-modal="true"
     aria-labelledby="modal-{{ $name }}-title"
     :aria-hidden="!show"
-    tabindex="-1"
+>
+    <x-card
+        @click.outside="show = false"
+        class="w-full max-w-lg shadow-xl"
+    >
+        @if ($title)
+            <h2 id="modal-{{ $name }}-title" class="text-lg font-semibold">{{ $title }}</h2>
+        @endif
 
-
-    <x-card @click.away="show =false">
-<div>
-    <h2 id="modal-{{ $name }}-title" class="text-lg font-semibold">{{ $title }}</h2>
-</div>
-<div>
-    {{ $slot }}
-</div>
-
-</x-card>
-
+        <div class="mt-4">
+            {{ $slot }}
+        </div>
+    </x-card>
 </div>
