@@ -3,14 +3,23 @@
         <header class="py-8 md:py-12">
             <h1 class="text-3x1 font-bold">Ideas</h1>
             <p class="text-muted-foreground text-sm  mt-2">All of your ideas in one place.</p>
+
+            <x-card
+                x-data
+                @click="$dispatch('open-modal', 'create-idea' })"
+                is="button"
+                class="mt-10 cursor-pointer h-32 w-full">
+                <p>What is your idea?</p>
+            </x-card>
+
         </header>
 
         <div>
             <a href="/ideas" class="btn {{ request()->has('status') ? 'btn-outline' : '' }}">All</a>
 
             @foreach (App\IdeaStatus::cases() as $status)
-            <a 
-                href="/ideas?status={{ $status->value }}" 
+            <a
+                href="/ideas?status={{ $status->value }}"
                 class="btn {{ request('status') === $status->value ? '' : 'btn-outline' }}">
 
                 {{ $status->label() }} <span class="text-xs pl-3">{{ $statusCounts->get($status->value, 0) }}</span>
@@ -19,7 +28,7 @@
         </div>
 
 
-       
+
 
         <div class="mt-10">
             <div class="grid md:grid-cols-2 gap-6">
@@ -43,6 +52,10 @@
                 </x-card>
                 @endforelse
             </div>
+
+             <x-modal name="create-idea" title="Create Idea">
+                <p>Slot content here.</p>
+             </x-modal>
+                 
         </div>
-    </div>
 </x-layout>

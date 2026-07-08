@@ -53,10 +53,6 @@ De esta forma cada usuario visualizará únicamente sus propias ideas.
 
 Se creó la vista:
 
-```
-resources/views/ideas/index.blade.php
-```
-
 En esta vista se desarrolló:
 
 - Encabezado principal.

@@ -1,4 +1,4 @@
-@props(['status' => 'pending'])
+@props(['is' => 'a'])
 
 @php
 
