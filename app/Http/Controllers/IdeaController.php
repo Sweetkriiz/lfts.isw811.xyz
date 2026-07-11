@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Idea;
 use Illuminate\Http\Request;
 use App\IdeaStatus;
-use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class IdeaController extends Controller
 {
@@ -16,27 +16,16 @@ class IdeaController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {   
+    {
+        /** @var User $user */
         $user = Auth::user();
 
-        $status =$request->status;
 
-        if (! in_array($status, array_column(IdeaStatus::cases(), 'value'))) {
-            $status = null;
-        }
-        // Use the Idea model directly to avoid undefined relation on the Auth user instance
-        $ideasQuery = Idea::query();
-
-        if ($user) {
-            $ideasQuery->where('user_id', $user->id);
-        }
-
-        if ($status) {
-            $ideasQuery->where('status', $status);
-        }
-
-        $ideas = $ideasQuery->get();
-
+        $ideas = $user
+            ->ideas()
+            ->when(in_array($request->status,IdeaStatus::values()), fn($query) => $query->where('status',$request->status))
+            ->latest()
+            ->get();
 
         return view('idea.index', [
             'ideas' => $ideas,
@@ -57,7 +46,11 @@ class IdeaController extends Controller
      */
     public function store(StoreIdeaRequest $request)
     {
-        //
+        
+
+        Auth::user()->ideas()->create($request->validated());
+
+        return to_route('idea.index')->with('success', 'Idea created!');
     }
 
     /**
@@ -65,7 +58,6 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
-        $this->authorize('view', $idea);
 
         return view('idea.show', [
             'idea' => $idea,
