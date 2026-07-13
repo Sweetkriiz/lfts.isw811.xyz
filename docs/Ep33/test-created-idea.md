@@ -1,6 +1,6 @@
 # Test The Create Idea Form
 
-## Episodio 34 - Test The Create Idea Form
+## Episodio 33 - Test The Create Idea Form
 
 ### Desarrollo del episodio
 
