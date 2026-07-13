@@ -2,12 +2,19 @@
     <div class="max-w-7xl mx-auto h-16 flex items-center justify-between">
         <div>
             <a href="/">
-                <img src="/images/logo.png" alt="Idea logo" width="100">
+                <img
+                    src="/images/logo.png"
+                    width="100"
+                    height="auto"
+                    alt="Idea logo"
+                >
             </a>
         </div>
 
         <div class="flex gap-x-5 items-center">
             @auth
+                <a href="{{ route('profile.edit') }}">Edit Profile</a>
+
                 <form method="POST" action="/logout">
                     @csrf
 

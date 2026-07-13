@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\StepController;
 use App\Http\Controllers\IdeaImageController;
+use App\Http\Controllers\ProfileController;
 
 
 Route::redirect('/', '/ideas');
@@ -29,3 +30,5 @@ Route::get('/login', [SessionsController::class, 'create'])->middleware('guest')
 Route::post('/login', [SessionsController::class, 'store'])->middleware('guest');
 
 Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
+
+Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
