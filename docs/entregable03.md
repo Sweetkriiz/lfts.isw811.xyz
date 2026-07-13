@@ -10,7 +10,7 @@
 - [Actionable Steps](./Ep35/Actionable-Steps.md)
 - [Upload Featured Images To Storage](./Ep36/mages-Storage.md)
 - [Action Classes](./Ep37/Action-Classes.md)
-- [Authorization Is A Requirement](./Ep38)
+- [Authorization Is A Requirement](./Ep38/Authorization-Requirement.md)
 - [Actionable Steps](./Ep39)
 - [The Edit Idea Modal](./Ep340)
 - [Update Idea Action](./Ep41)

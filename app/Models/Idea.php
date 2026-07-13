@@ -20,9 +20,10 @@ class Idea extends Model
         'links' => AsArrayObject::class,
         'status' => IdeaStatus::class,
     ];
-    
+
     protected $attributes = [
-        'status' => 'pending',
+        'status' => IdeaStatus::PENDING->value,
+
     ];
 
     public static function statusCounts(User $user): Collection
@@ -32,14 +33,14 @@ class Idea extends Model
             ->groupBy('status')
             ->pluck('count', 'status');
 
-        
+
        return collect(IdeaStatus::cases())
         ->mapWithKeys(fn($status) => [
             $status->value => $counts->get($status->value,0)
         ])
         ->put('all', $user->ideas->count());
 
-    
+
     }
 
     public function user(): BelongsTo

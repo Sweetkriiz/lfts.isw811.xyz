@@ -9,7 +9,10 @@
             </a>
 
             <div class="gap-x-3 flex items-center">
-                <button class="btn btn-outlined">
+                <button x-data class="btn btn-outlined" data-teste="edit-idea-button"
+                    @click="$dispatch('open-modal', 'create-idea')"
+
+                    >
                     <x-icons.external />
                     Edit Idea
                 </button>
@@ -25,12 +28,11 @@
 
         <div class="mt-8 space-y-6">
             @if ($idea->image_path)
-            <div class="rounded-lg overflow-hidden">
-                 <img src="{{ asset('storage/' . $idea->image_path) }}" all="" class="w-full h-auto object-cover">
+                <div class="rounded-lg overflow-hidden">
+                    <img src="{{ asset('storage/' . $idea->image_path) }}" all=""
+                        class="w-full h-auto object-cover">
 
-            </div>
-
-
+                </div>
             @endif
             <h1 class="font-bold text-4xl">{{ $idea->title }}</h1>
 
@@ -41,11 +43,12 @@
                 <div class="text-muted-foreground text-sm">{{ $idea->created_at->diffForHumans() }}</div>
             </div>
         </div>
-        <x-card class="mt-6">
-            <div class="text-foreground max-w-none cursor-pointer">{{ $idea->description }}
-            </div>
-        </x-card>
-
+        @if($idea->description)
+            <x-card class="mt-6">
+                <div class="text-foreground max-w-none cursor-pointer">{{ $idea->description }}
+                </div>
+            </x-card>
+        @endif
         @if ($idea->steps->count())
             <div>
                 <h3 class="font-bold text-xl mt-6">Actionable steps</h3>
@@ -54,7 +57,7 @@
                     @foreach ($idea->steps as $step)
                         <x-card>
 
-                            <form method="POST" action="{{ route('step.update', $step ) }}">
+                            <form method="POST" action="{{ route('step.update', $step) }}">
                                 @csrf
                                 @method('PATCH')
 
@@ -63,7 +66,8 @@
                                     <button type="submit" role="checkbox"
                                         class="size-5 flex items-center justify-center rounded-lg text-primary-foreground {{ $step->completed ? 'bg-primary' : 'border border-primary' }}">
                                         &check; </button>
-                                    <span class="{{ $step->completed ? 'line-through text-muted-foreground' : ''}}"> {{ $step->description }}</span>
+                                    <span class="{{ $step->completed ? 'line-through text-muted-foreground' : '' }}">
+                                        {{ $step->description }}</span>
                                 </div>
                             </form>
                         </x-card>
@@ -89,5 +93,6 @@
                 </div>
             </div>
         @endif
+    <x-idea.modal :idea="$idea" />
     </div>
 </x-layout>
