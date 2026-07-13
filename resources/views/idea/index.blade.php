@@ -51,14 +51,18 @@
         </div>
 
         <x-modal name="create-idea" title="New Idea">
-            <form x-data="{
-            status: 'pending',
-            newLink: '',
-            links: []
+            <form
+            x-data="{
+                status: 'pending',
+                newLink: '',
+                links: []
+                newStep: '',
+                steps: []
             }"
-             method="POST"
-             action="{{ route('idea.store') }}">
-                @csrf
+            method="POST"
+            action="{{ route('idea.store') }}"
+            >
+            @csrf
 
                 <div class="space-y-6">
                     <x-form.field label="Title" name="title" placeholder="Enter an idea for your title" autofocus
@@ -90,9 +94,55 @@
 
                     <div>
                         <fieldset class="space-y-3">
+                            <legend class="label">Actionable Steps</legend>
+
+                          <template x-for="(step, index) in steps" :key="step">
+                                <div class="flex gap-x-2 items-center">
+
+                                    <input name="steps[]" x-model="step" class="input">
+
+                                    <button
+                                        type="button"
+                                        aria-label="Remove step"
+                                        click="steps.splice(index, 1)"
+                                        class="form-muted-icon"
+
+                                        >
+                                        <x-icons.close />
+                                    </button>
+                                </div>
+                            </template>
+
+                            <div class="flex gap-x-2 items-center">
+                                <input
+                                x-model="newStep"
+                                id="new-step"
+                                data-test="new-step"
+                                placeholder="What needs to be done?"
+                                class="input flex-1"
+                                spellcheck="false">
+
+                                <button
+                                type="button"
+                                @click="steps.push(newStep.trim()): newStep ='';"
+                                data-test="submit-new-step-button"
+                                @disabled="newStep.trim().length === 0"
+                                aria-label="Add a new step"
+                                class="form-muted-icon"
+
+                                >
+                                    <x-icons.close class="rotate-45" />
+                                </button>
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <fieldset class="space-y-3">
                             <legend class="label">Links</legend>
 
-                            <template x-for="(link, index) in links" :key="index">
+                            <template x-for="(link, index) in links" :key="link">
                                 <div class="flex gap-x-2 items-center">
 
                                     <input name="links[]" x-model="links" class="input">
