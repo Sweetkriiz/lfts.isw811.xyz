@@ -1,6 +1,6 @@
 # Actionable Steps
 
-## Episodio 36 - Actionable Steps
+## Episodio 35 - Actionable Steps
 
 ### Desarrollo del episodio
 
