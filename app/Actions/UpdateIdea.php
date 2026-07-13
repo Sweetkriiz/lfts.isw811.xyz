@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Actions;
+
+use App\Models\User;
+use App\Models\Idea;
+use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Db;
+
+class UpdateIdea
+{
+    public function handle(array $attributes, Idea $idea)
+    {
+        $data = collect($attributes)->only([
+            'title',
+            'description',
+            'status',
+            'links',
+        ])->toArray();
+
+        if ($attributes['image'] ?? false) {
+            $data['image_path'] = $attributes['image']->store('ideas', 'public');
+        }
+
+        DB::transaction(function () use ($idea, $data, $attributes) {
+            $idea->update($data);
+
+            $idea->steps()->delete();
+
+            $idea->steps()->createMany($attributes['steps'] ?? []);
+
+ 
+        });
+    }
+}

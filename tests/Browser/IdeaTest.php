@@ -40,26 +40,26 @@ it('edits a existing idea', function () {
 
     visit(round('idea.show', $idea))
         ->click('@edit-idea-button')
-   //     ->fill('title', 'Some Example Title')
-   //     ->click('@button-status-completed')
-    //    ->fill('description', 'An example description')
-   //     ->fill('@new-link', 'https://laracasts.com')
-   //     ->click('@submit-new-link-button')
-    //    ->fill('@new-link', 'https://laravel.com')
-   //     ->click('@submit-new-link-button')
-    //    ->fill('@new-step', 'Do a thing')
-  //      ->click('@submit-new-step-button')
-     //   ->fill('@new-step', 'Do another thing')
-   //     ->click('@submit-new-step-button')
-   //    ->click('Create')
-    //    ->assertPathIs('/ideas');
+        ->fill('title', 'Some Example Title')
+        ->click('@button-status-completed')
+        ->fill('description', 'An example description')
+        ->fill('@new-link', 'https://laracasts.com')
+        ->click('@submit-new-link-button')
+        ->fill('@new-link', 'https://laravel.com')
+        ->click('@submit-new-link-button')
+        ->fill('@new-step', 'Do a thing')
+        ->click('@submit-new-step-button')
+        ->fill('@new-step', 'Do another thing')
+        ->click('@submit-new-step-button')
+        ->click('Update')
+        ->assertRoute('idea.show', [$idea]);
+        
+    expect($user->ideas()->first())->toMatchArray([
+        'title' => 'Some Example Title',
+        'status' => 'completed',
+        'description' => 'An example description',
+        'links' => ['https://laracasts.com', 'https://laravel.com'],
+    ]);
 
- //   expect($user->ideas()->first())->toMatchArray([
-   //     'title' => 'Some Example Title',
-  //      'status' => 'completed',
-  //      'description' => 'An example description',
-  //      'links' => ['https://laracasts.com', 'https://laravel.com'],
- //   ]);
-
-//    expect($idea->steps)->toHaveCount(2);
+    expect($idea->steps)->toHaveCount(2);
 });

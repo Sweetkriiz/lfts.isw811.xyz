@@ -10,7 +10,7 @@
             newLink: '',
             links: @js(old('links', $idea->links ?? [])),
             newStep: '',
-            steps: @js(old('steps', $idea->steps?->pluck('description')->all() ?? []))
+            steps: @js(old('steps', $idea->steps->map->only(['id', 'description', 'completed'])))
         }"
         method="POST"
         action="{{ $idea->exists ? route('idea.update', $idea) : route('idea.store') }}"
@@ -100,15 +100,23 @@
 
                     <template
                         x-for="(step, index) in steps"
-                        :key="`${step}-${index}`"
+                        :key="step,id"
                     >
                         <div class="flex items-center gap-x-2">
                             <input
-                                type="text"
-                                name="steps[]"
-                                x-model="steps[index]"
-                                class="input flex-1"
+                                :name="`steps[${index}][description]`"
+                                x-model="step.description"
+                                class="input"
+                                readonly
                             >
+                            <input
+                                type="hidden"
+                                name="steps[${index}][completed]`"
+                                x-model="`step.completed ? '1' : '0'"
+                                class="input"
+                                readonly
+                            >
+
 
                             <button
                                 type="button"
@@ -192,9 +200,9 @@
 
                         <button
                             type="button"
-                            @click="
-                                links.push(newLink.trim());
-                                newLink = '';
+                            @click="steps.push([ description: newStep.trim(). completed: false]);
+                            newStep ='';
+                         
                             "
                             data-test="submit-new-link-button"
                             :disabled="newLink.trim().length === 0"
