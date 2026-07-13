@@ -13,3 +13,5 @@
 - [Tailwind Theme Setup And Initial UI](./Ep25/Tailwind-theme.md)
 - [Browser Testing Registration Forms With Pest](./Ep26/Browser-Testing.md)
 - [Flash Messaging and Interactivity with AlpineJS](./Ep27/AlpineJS.md)
+- [Idea Cards](./Ep28/idea.card.md)
+- [Idea Filtering](./Ep29/Idea-Filtering.md)

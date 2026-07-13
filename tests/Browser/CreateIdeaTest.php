@@ -1,10 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 use App\Models\User;
-use App\Models\Idea;
 
-it('does something', function (){
-    $this->actingAs(User::factory()->created());
-
+it('creates a new idea', function () {
+    $this->actingAs($user = User::factory()->create());
 
     visit('/ideas')
         ->click('@create-idea-button')
@@ -15,14 +16,19 @@ it('does something', function (){
         ->click('@submit-new-link-button')
         ->fill('@new-link', 'https://laravel.com')
         ->click('@submit-new-link-button')
+        ->fill('@new-step', 'Do a thing')
+        ->click('@submit-new-step-button')
+        ->fill('@new-step', 'Do another thing')
+        ->click('@submit-new-step-button')
         ->click('Create')
-        ->asserPathIs('/ideas');
+        ->assertPathIs('/ideas');
 
     expect($user->ideas()->first())->toMatchArray([
         'title' => 'Some Example Title',
         'status' => 'completed',
         'description' => 'An example description',
-        'links' => ['https://laracasts.com' ,'https://laravel.com'],
+        'links' => ['https://laracasts.com', 'https://laravel.com'],
     ]);
-});
 
+    expect($idea->steps)->toHaveCount(2);
+});
