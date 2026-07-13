@@ -8,7 +8,9 @@
                 x-data
                 @click="$dispatch('open-modal', 'create-idea')"
                 is="button"
-                class="mt-10 cursor-pointer h-32 w-full">
+                type="button"
+                data-test="create-idea-button"
+                class="mt-10 cursor-pointer h-32 w-full text-left">
                 <p>What is your idea?</p>
             </x-card>
 
@@ -77,8 +79,8 @@
                                 <button
                                     type="button"
                                     @click="status = @js($status->value)"
+                                    data-test="button-status-{{ $status->value }}"
                                     class="btn flex-1 h-10"
-                                    :class="status === @js($status->value) ? '' : 'btn-outlined'"
                                     :class={'btn-outlined': status !== @js($status->value)}
                                 >
                                     {{ $status->label() }}

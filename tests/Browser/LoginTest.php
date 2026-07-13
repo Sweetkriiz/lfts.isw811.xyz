@@ -1,12 +1,16 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+
+use function Pest\Browser\visit;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertAuthenticated;
+use function Pest\Laravel\assertGuest;
 
 it('logs in a user', function () {
     $user = User::factory()->create([
-        'password' =>'password123!@#']);
-  
+        'password' => 'password123!@#',
+    ]);
 
     visit('/login')
         ->fill('email', $user->email)
@@ -14,17 +18,16 @@ it('logs in a user', function () {
         ->click('[data-test="login-button"]')
         ->assertPathIs('/');
 
-    $this->assertAuthenticated();
+    assertAuthenticated();
 });
-
 
 it('logs out a user', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     visit('/')
         ->click('Log out');
 
-    $this->assertGuest();
+    assertGuest();
 });
