@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Collection;
 
 
@@ -34,13 +35,11 @@ class Idea extends Model
             ->pluck('count', 'status');
 
 
-       return collect(IdeaStatus::cases())
-        ->mapWithKeys(fn($status) => [
-            $status->value => $counts->get($status->value,0)
-        ])
-        ->put('all', $user->ideas->count());
-
-
+        return collect(IdeaStatus::cases())
+            ->mapWithKeys(fn($status) => [
+                $status->value => $counts->get($status->value, 0)
+            ])
+            ->put('all', $user->ideas->count());
     }
 
     public function user(): BelongsTo
@@ -51,5 +50,12 @@ class Idea extends Model
     public function steps(): HasMany
     {
         return $this->hasMany(Step::class);
+    }
+
+    public function formattedDescription(): Attribute
+    {
+        return Attribute::get(
+            fn($value, $attributes) => str($attributes['description'])->markdown());
+        
     }
 }

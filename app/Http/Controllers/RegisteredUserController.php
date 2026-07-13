@@ -30,6 +30,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect('/')->with('success', 'Registration Complete');
+        return to_route('idea.index')->with('success', 'Registration Complete');
     }
 }

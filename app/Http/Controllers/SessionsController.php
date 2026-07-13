@@ -30,11 +30,11 @@ class SessionsController extends Controller
         $request->session()->regenerate();
 
         return redirect()
-            ->intended('/')
+            ->intended(route('idea.index'))
             ->with('success', 'You are now logged in.');
 
     }
-    
+
     public function destroy(Request $request)
     {
         Auth::logout();
