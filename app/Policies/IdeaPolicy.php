@@ -11,7 +11,7 @@ class IdeaPolicy
 
     public function workWith(User $user, idea $idea): bool
     {
-        return $idea->user->is(user);
+        return $idea->user->is($user);
     }
 
 }

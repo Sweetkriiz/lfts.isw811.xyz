@@ -16,20 +16,37 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')],
-            'password' => ['required', 'string', 'min:8', 'max:255'],
+        $attributes = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email'),
+            ],
+
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'max:255',
+            ],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        $user = User::create($attributes);
 
         Auth::login($user);
 
-        return to_route('idea.index')->with('success', 'Registration Complete');
+        $request->session()->regenerate();
+
+        return to_route('ideas.index')
+            ->with('success', 'Registration complete!');
     }
 }

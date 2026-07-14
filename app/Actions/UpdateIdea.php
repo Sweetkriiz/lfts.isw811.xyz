@@ -2,35 +2,54 @@
 
 namespace App\Actions;
 
-use App\Models\User;
 use App\Models\Idea;
-use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Db;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateIdea
 {
-    public function handle(array $attributes, Idea $idea)
+    public function handle(array $attributes, Idea $idea): Idea
     {
-        $data = collect($attributes)->only([
-            'title',
-            'description',
-            'status',
-            'links',
-        ])->toArray();
+        $data = collect($attributes)
+            ->only([
+                'title',
+                'description',
+                'status',
+                'links',
+            ])
+            ->toArray();
 
-        if ($attributes['image'] ?? false) {
-            $data['image_path'] = $attributes['image']->store('ideas', 'public');
+        $oldImagePath = null;
+
+        if (! empty($attributes['image'])) {
+            $oldImagePath = $idea->image_path;
+
+            $data['image_path'] = $attributes['image']
+                ->store('ideas', 'public');
         }
 
-        DB::transaction(function () use ($idea, $data, $attributes) {
+        $steps = collect($attributes['steps'] ?? [])
+            ->map(function (array $step) {
+                return [
+                    'description' => $step['description'],
+                    'completed' => (bool) ($step['completed'] ?? false),
+                ];
+            })
+            ->values()
+            ->all();
+
+        DB::transaction(function () use ($idea, $data, $steps) {
             $idea->update($data);
 
             $idea->steps()->delete();
 
-            $idea->steps()->createMany($attributes['steps'] ?? []);
-
- 
+            $idea->steps()->createMany($steps);
         });
+
+        if ($oldImagePath) {
+            Storage::disk('public')->delete($oldImagePath);
+        }
+
+        return $idea->refresh();
     }
 }

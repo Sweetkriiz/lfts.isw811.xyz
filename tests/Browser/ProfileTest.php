@@ -22,9 +22,9 @@ it('edits a profile', function () {
         ->assertSee('Account updated');
 
     expect($user->fresh())->toMatchArray([
-    'name' => 'New Name',
-    'email' => 'new@example.com',
-]);
+        'name' => 'New Name',
+        'email' => 'new@example.com',
+    ]);
 });
 
 it('notifies the original email if updated', function () {
@@ -38,7 +38,10 @@ it('notifies the original email if updated', function () {
         ->click('Update Account')
         ->assertSee('Profile updated!');
 
-    Notification::asserSentOnDemand(EmailChanged::class, function (EmailChanged $no$emailChanged));
-
-
+    Notification::assertSentOnDemand(
+        EmailChanged::class,
+        function (EmailChanged $emailChanged) {
+            return true;
+        }
+    );
 });

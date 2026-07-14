@@ -29,17 +29,17 @@ class Idea extends Model
 
     public static function statusCounts(User $user): Collection
     {
-        $counts = $user->ideas()
+        $counts = $user
+            ->ideas()
             ->selectRaw('status, COUNT(*) as count')
             ->groupBy('status')
             ->pluck('count', 'status');
 
-
         return collect(IdeaStatus::cases())
-            ->mapWithKeys(fn($status) => [
-                $status->value => $counts->get($status->value, 0)
+            ->mapWithKeys(fn(IdeaStatus $status) => [
+                $status->value => $counts->get($status->value, 0),
             ])
-            ->put('all', $user->ideas->count());
+            ->put('all', $user->ideas()->count());
     }
 
     public function user(): BelongsTo
@@ -55,7 +55,7 @@ class Idea extends Model
     public function formattedDescription(): Attribute
     {
         return Attribute::get(
-            fn($value, $attributes) => str($attributes['description'])->markdown());
-        
+            fn($value, $attributes) => str($attributes['description'])->markdown()
+        );
     }
 }

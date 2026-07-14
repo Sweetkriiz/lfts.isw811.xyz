@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\EmailChanged;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
-use App\Notifications\EmailChanged;
-use Illuminate\Support\Facades\Notification;
 
 class ProfileController extends Controller
 {
@@ -20,10 +21,15 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
 
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        $attributes = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
             'email' => [
                 'required',
@@ -41,20 +47,18 @@ class ProfileController extends Controller
 
         $originalEmail = $user->email;
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ?? $user->password,
-        ]);
+        if (empty($attributes['password'])) {
+            unset($attributes['password']);
+        }
 
-        // if the email was changed, send an EmailChanged notification.
-        if ($originalEmail !== $request->email) {
+        $user->update($attributes);
+
+        if ($originalEmail !== $user->email) {
             Notification::route('mail', $originalEmail)
                 ->notify(new EmailChanged($user, $originalEmail));
         }
-        
-        return redirect()
-            ->route('profile.edit')
+
+        return to_route('profile.edit')
             ->with('success', 'Profile updated!');
     }
 }

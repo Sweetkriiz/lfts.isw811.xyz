@@ -1,4 +1,9 @@
-@props(['label' => false, 'name', 'type' => 'text', 'value' => null])
+@props([
+    'label' => false,
+    'name',
+    'type' => 'text',
+    'value' => null,
+])
 
 <div class="space-y-2">
     @if ($label)
@@ -25,5 +30,5 @@
         >
     @endif
 
-    <x-field.error :name="{{ $name }}" />
+    <x-form.error :name="$name" />
 </div>
